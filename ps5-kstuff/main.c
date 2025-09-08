@@ -291,7 +291,7 @@ int get_proc_cr3(uint64_t pid, uint64_t* cr3, uint64_t* dmap_base)
     uint64_t vmspace = kread8(proc + 0x200);
     // TODO: i dont know when this shifted, may be an earlier fw, also, add this to offsets.c? 
     uint32_t fwver = r0gdb_get_fw_version() >> 16;
-    uint32_t vmspace_pmap_offset = (fwver >= 0x800 ? 0x2E8 : 0x2E0);
+    uint32_t vmspace_pmap_offset = (fwver >= 0x700 ? 0x2E8 : 0x2E0);
     uint64_t ptrs[2] = {0};
     copyout(ptrs, vmspace + vmspace_pmap_offset + 32, sizeof(ptrs));
     if (cr3) *cr3 = ptrs[1];
@@ -2417,3 +2417,4 @@ int main(void* ds, int a, int b, uintptr_t c, uintptr_t d)
     asm volatile("ud2");
     return 0;
 }
+
